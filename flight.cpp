@@ -3,18 +3,32 @@ using namespace std;
 
 class Flight{
 protected:
-string flightnumber;
+string flightNumber;
 string departureTime;
-string destination;
-float price;
+double price;
 
 public:
-//virtual void inputFlightDetails()=0;
-//virtual void displayFlightDetails()=0;
+// Constructor for Flight
+Flight(string flightNum,string depTime,
+double flightPrice){
+flightNumber= flightNum;
+departureTime= depTime;
+price= flightPrice;
+
+}
+
+public:
+virtual void displayFlightDetails(){
+
+cout<<"Flight Number: "<<flightNumber<<endl;
+cout<<"Departure Time: "<<departureTime<<endl;
+cout<<"Flight Price: "<<flightPrice<<endl;
+
+}
 //virtual ~Flight(){}
 
 };
-
+// Creating derived class
 class DomesticFlight : public Flight {
 private:
     string departureCity;
@@ -29,9 +43,9 @@ public:
     }
 
     // Override the displayFlightDetails function
-    void displayFlightDetails() override {
-        cout << "\n** Domestic Flight **\n";
-        Flight::displayFlightDetails(); // Display base class details
+    void displayFlightDetails(){
+        cout << "Domestic Flight";
+       // Flight::displayFlightDetails(); // Display base class details
         cout << "Departure City: " << departureCity << endl;
         cout << "Arrival City: " << arrivalCity << endl;
     }
@@ -40,7 +54,8 @@ public:
 int main()
 {
 
-Flight f1;
+//Flight f1;
+//DomesticFlight df1;
 cout<<"Hello World";
 return 0;
 
