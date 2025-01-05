@@ -74,6 +74,33 @@ public:
     }
 };
 
+// FlightManager Class to handle flights
+class FlightManager {
+private:
+    vector<Flight*> flights;  // A vector to store flights
+    
+public:
+    // Add a flight to the system
+    void addFlight(Flight* flight) {
+        flights.push_back(flight);
+    }
+
+    // Display all flights
+    void displayAllFlights() {
+        for (auto flight : flights) {
+            flight->displayFlightDetails();
+            cout << "------------------------------------\n";
+        }
+    }
+
+    // Destructor to delete all dynamically allocated flights
+    ~FlightManager() {
+        for (auto flight : flights) {
+            delete flight;  // Free memory
+        }
+    }
+};
+
 int main()
 {
 
