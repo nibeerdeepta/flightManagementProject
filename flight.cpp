@@ -51,6 +51,29 @@ public:
     }
 };
 
+// Derived Class - InternationalFlight (Inherits from Flight)
+class InternationalFlight : public Flight {
+private:
+    string departureCountry;
+    string arrivalCountry;
+    
+public:
+    // Constructor for International Flight
+    InternationalFlight(string flightNum, string depTime, double flightPrice, string depCountry, string arrCountry)
+        : Flight(flightNum, depTime, flightPrice) {
+        departureCountry = depCountry;
+        arrivalCountry = arrCountry;
+    }
+
+    // Override the displayFlightDetails function
+    void displayFlightDetails() override {
+        cout << "International Flight";
+        Flight::displayFlightDetails(); // Display base class details
+        cout << "Departure Country: " << departureCountry << endl;
+        cout << "Arrival Country: " << arrivalCountry << endl;
+    }
+};
+
 int main()
 {
 
