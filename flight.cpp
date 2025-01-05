@@ -1,84 +1,103 @@
-#include<iostream>
+#include <iostream>
+#include <vector>
+#include <string>
 using namespace std;
 
-class Flight{
+// Base Class: Flight
+class Flight {
 protected:
-string flightNumber;
-string departureTime;
-double price;
+    string flightNumber;
+    string departureTime;
+    double price;
 
 public:
-// Constructor for Flight
-Flight(string flightNum,string depTime,
-double flightPrice){
-flightNumber= flightNum;
-departureTime= depTime;
-price= flightPrice;
+    // Constructor for Flight
+    Flight(string flightNum, string depTime, double flightPrice)
+        : flightNumber(flightNum), departureTime(depTime), price(flightPrice) {}
 
-}
+    // Virtual function to display flight details
+    virtual void displayFlightDetails() {
+        cout << "\nFlight Number: " << flightNumber << endl;
+        cout << "Departure Time: " << departureTime << endl;
+        cout << "Price: " << price << endl;
+    }
 
-public:
-virtual void displayFlightDetails(){
-
-cout<<"Flight Number: "<<flightNumber<<endl;
-cout<<"Departure Time: "<<departureTime<<endl;
-cout<<"Flight Price: "<<flightPrice<<endl;
-
-}
-virtual ~Flight(){}
-
+    virtual ~Flight() {}
 };
-// Creating derived class
+
+// Derived Class: DomesticFlight
 class DomesticFlight : public Flight {
 private:
     string departureCity;
     string arrivalCity;
-    
+
 public:
     // Constructor for Domestic Flight
     DomesticFlight(string flightNum, string depTime, double flightPrice, string depCity, string arrCity)
-        : Flight(flightNum, depTime, flightPrice) {
-        departureCity = depCity;
-        arrivalCity = arrCity;
-    }
+        : Flight(flightNum, depTime, flightPrice), departureCity(depCity), arrivalCity(arrCity) {}
 
-    // Override the displayFlightDetails function
-    void displayFlightDetails(){
-        cout << "Domestic Flight";
-        Flight::displayFlightDetails(); // Display base class details
+    // Override to display flight details
+    void displayFlightDetails() override {
+        cout << "\n--- Domestic Flight ---\n";
+        Flight::displayFlightDetails();
         cout << "Departure City: " << departureCity << endl;
         cout << "Arrival City: " << arrivalCity << endl;
     }
+
+    // Input method for Domestic Flight details
+    void inputFlightDetails() {
+        cout << "Enter Flight Number: ";
+        cin >> flightNumber;
+        cout << "Enter Departure Time: ";
+        cin >> departureTime;
+        cout << "Enter Price: ";
+        cin >> price;
+        cout << "Enter Departure City: ";
+        cin >> departureCity;
+        cout << "Enter Arrival City: ";
+        cin >> arrivalCity;
+    }
 };
 
-// Derived Class - InternationalFlight (Inherits from Flight)
+// Derived Class: InternationalFlight
 class InternationalFlight : public Flight {
 private:
     string departureCountry;
     string arrivalCountry;
-    
+
 public:
     // Constructor for International Flight
     InternationalFlight(string flightNum, string depTime, double flightPrice, string depCountry, string arrCountry)
-        : Flight(flightNum, depTime, flightPrice) {
-        departureCountry = depCountry;
-        arrivalCountry = arrCountry;
-    }
+        : Flight(flightNum, depTime, flightPrice), departureCountry(depCountry), arrivalCountry(arrCountry) {}
 
-    // Override the displayFlightDetails function
+    // Override to display flight details
     void displayFlightDetails() override {
-        cout << "International Flight";
-        Flight::displayFlightDetails(); // Display base class details
+        cout << "\n--- International Flight ---\n";
+        Flight::displayFlightDetails();
         cout << "Departure Country: " << departureCountry << endl;
         cout << "Arrival Country: " << arrivalCountry << endl;
     }
+
+    // Input method for International Flight details
+    void inputFlightDetails() {
+        cout << "Enter Flight Number: ";
+        cin >> flightNumber;
+        cout << "Enter Departure Time: ";
+        cin >> departureTime;
+        cout << "Enter Price: ";
+        cin >> price;
+        cout << "Enter Departure Country: ";
+        cin >> departureCountry;
+        cout << "Enter Arrival Country: ";
+        cin >> arrivalCountry;
+    }
 };
 
-// FlightManager Class to handle flights
+// FlightManager Class
 class FlightManager {
 private:
-    vector<Flight*> flights;  // A vector to store flights
-    
+    vector<Flight*> flights; // Vector to store flights
+
 public:
     // Add a flight to the system
     void addFlight(Flight* flight) {
@@ -87,16 +106,20 @@ public:
 
     // Display all flights
     void displayAllFlights() {
-        for (auto flight : flights) {
-            flight->displayFlightDetails();
-            cout << "------------------------------------\n";
+        if (flights.empty()) {
+            cout << "No flights available.\n";
+        } else {
+            for (auto flight : flights) {
+                flight->displayFlightDetails();
+                cout << "------------------------------------\n";
+            }
         }
     }
 
-    // Destructor to delete all dynamically allocated flights
+    // Destructor to free memory
     ~FlightManager() {
         for (auto flight : flights) {
-            delete flight;  // Free memory
+            delete flight; // Free memory
         }
     }
 };
@@ -117,13 +140,13 @@ int main() {
 
         switch (choice) {
         case 1: {
-            DomesticFlight* domesticFlight = new DomesticFlight();
+            DomesticFlight* domesticFlight = new DomesticFlight("", "", 0.0, "", "");
             domesticFlight->inputFlightDetails();
             manager.addFlight(domesticFlight);
             break;
         }
         case 2: {
-            InternationalFlight* internationalFlight = new InternationalFlight();
+            InternationalFlight* internationalFlight = new InternationalFlight("", "", 0.0, "", "");
             internationalFlight->inputFlightDetails();
             manager.addFlight(internationalFlight);
             break;
