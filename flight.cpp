@@ -25,7 +25,7 @@ cout<<"Departure Time: "<<departureTime<<endl;
 cout<<"Flight Price: "<<flightPrice<<endl;
 
 }
-//virtual ~Flight(){}
+virtual ~Flight(){}
 
 };
 // Creating derived class
@@ -45,7 +45,7 @@ public:
     // Override the displayFlightDetails function
     void displayFlightDetails(){
         cout << "Domestic Flight";
-       // Flight::displayFlightDetails(); // Display base class details
+        Flight::displayFlightDetails(); // Display base class details
         cout << "Departure City: " << departureCity << endl;
         cout << "Arrival City: " << arrivalCity << endl;
     }
@@ -101,12 +101,43 @@ public:
     }
 };
 
-int main()
-{
+// Main Function
+int main() {
+    FlightManager manager;
 
-//Flight f1;
-//DomesticFlight df1;
-cout<<"Hello World";
-return 0;
+    int choice;
+    do {
+        cout << "\nFlight Management System\n";
+        cout << "1. Add Domestic Flight\n";
+        cout << "2. Add International Flight\n";
+        cout << "3. Display All Flights\n";
+        cout << "4. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
 
+        switch (choice) {
+        case 1: {
+            DomesticFlight* domesticFlight = new DomesticFlight();
+            domesticFlight->inputFlightDetails();
+            manager.addFlight(domesticFlight);
+            break;
+        }
+        case 2: {
+            InternationalFlight* internationalFlight = new InternationalFlight();
+            internationalFlight->inputFlightDetails();
+            manager.addFlight(internationalFlight);
+            break;
+        }
+        case 3:
+            manager.displayAllFlights();
+            break;
+        case 4:
+            cout << "Exiting the system...\n";
+            break;
+        default:
+            cout << "Invalid choice. Please try again.\n";
+        }
+    } while (choice != 4);
+
+    return 0;
 }
